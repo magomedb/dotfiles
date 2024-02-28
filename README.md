@@ -1,2 +1,1 @@
-# my-neovim-config
-My personal NVIM config.
+My personal development environment configuration.
