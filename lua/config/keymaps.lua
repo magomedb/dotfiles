@@ -18,3 +18,7 @@ keymap.set("n", "<leader>sh", ":split<CR>", opts) -- Split horizontally
 keymap.set("n", "<leader>se", "<C-w>=", opts) -- Make windows equal size
 keymap.set("n", "<leader>sx", ":close<CR>", opts) -- Close current window
 keymap.set("n", "<leader>sm", ":MaximizerToggle<CR>", opts) -- Toggle minimize
+
+-- Indenting
+keymap.set("v", "<", "<gv")
+keymap.set("v", ">", ">gv")
