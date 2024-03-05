@@ -1,6 +1,18 @@
 # My personal development environment configuration.
 
 ## Dependencies
-- Neovim v0.9.0+
+
+### NeoVim
+- NeoVim v0.9.0+
 - Ripgrep
 - A Nerdfont
+
+### IntelliJ with IdeaVim
+- IdeaVim
+- Highlighted yank (comes bundled with IdeaVim)
+- Surround (comes bundled with IdeaVim)
+- NerdTree (comes bundled with IdeaVim)
+- IdeaVim Sneak
+- IdeaVim-EasyMotion
+- AceJump
+- Which-Key
