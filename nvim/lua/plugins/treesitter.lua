@@ -31,6 +31,7 @@ return {
 				"gitignore",
 				"vimdoc",
 				"c",
+				"rust",
 			},
 			incremental_selection = {
 				enable = true,

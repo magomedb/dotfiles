@@ -28,12 +28,14 @@ return {
 			-- list of servers for mason to install
 			ensure_installed = {
 				"lua_ls",
+				"rust_analyzer",
 			},
 		})
 
 		mason_tool_installer.setup({
 			ensure_installed = {
-				"stylua", -- lua formatter
+				"stylua", -- lua formatter,
+				"rustfmt", -- rust formatter,
 			},
 		})
 	end,

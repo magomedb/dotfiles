@@ -10,6 +10,7 @@ return {
 				yaml = { "prettier" },
 				markdown = { "prettier" },
 				lua = { "stylua" },
+				rust = { "rustfmt" },
 			},
 			format_on_save = {
 				lsp_fallback = true,
