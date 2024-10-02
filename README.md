@@ -2,6 +2,9 @@
 
 ## Dependencies
 
+### Helix
+- Helix (ideally latest and greatest)
+
 ### NeoVim
 - NeoVim v0.9.0+
 - Ripgrep
