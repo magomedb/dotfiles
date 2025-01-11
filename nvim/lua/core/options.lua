@@ -1,33 +1,33 @@
-vim.cmd("let g:netrw_liststyle = 3")
+vim.wo.number = true
+vim.o.relativenumber = true
+vim.o.clipboard = 'unnamedplus'
+vim.o.wrap = false
+vim.o.linebreak = true
+vim.o.mouse = 'a'
+vim.o.autoindent = true
+vim.o.ignorecase = true
+vim.o.smartcase = true
 
-local opt = vim.opt
+vim.o.shiftwidth = 4
+vim.o.tabstop = 4
+vim.o.softtabstop = 4
+vim.o.expandtab = true
 
--- line numbers
-opt.relativenumber = true
-opt.number = true
+vim.o.scrolloff = 4
+vim.o.sidescrolloff = 8
+vim.o.cursorline = false
+vim.o.splitbelow = true
+vim.o.splitright = true
+vim.o.hlsearch = false
+vim.o.showmode = true
 
--- tabs & indentation
-opt.tabstop = 4 -- 4 spaces for tabs
-opt.shiftwidth = 4 -- 4 spaces for indent width
-opt.expandtab = true -- expand tab to spaces
-opt.autoindent = true -- copy indent from current line when starting new one
-opt.wrap = false -- disable linewrapping
-
--- search settings
-opt.ignorecase = true -- ignore case when searching
-opt.smartcase = true -- if you include mixed case in your search, assumes you want case-sensitive search
-
--- appearance
-opt.termguicolors = true -- turn on termguicolors for colorscheme to work
-opt.background = "dark" -- colorschemes that can be light or dark will be made dark
-opt.signcolumn = "yes" -- show sign column so that text doesn't shift
-
--- backspace
-opt.backspace = "indent,eol,start" -- allow backspace on indent, end of line or insert mode start position
-
--- clipboard
-opt.clipboard:append("unnamedplus") -- use system clipboard as default register
-
--- split windows
-opt.splitright = true -- split vertical window to the right
-opt.splitbelow = true -- split horizontal window to the bottom
+vim.opt.termguicolors = true
+vim.o.numberwidth = 4
+vim.o.swapfile = false
+vim.o.smartindent = true
+vim.o.showtabline = 2
+vim.o.backspace = 'indent,eol,start'
+vim.o.pumheight = 10
+vim.o.conceallevel = 0
+vim.wo.signcolumn = 'yes'
+vim.o.cmdheight = 1
