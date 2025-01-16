@@ -6,7 +6,7 @@
 - Helix (ideally latest and greatest)
 
 ### NeoVim
-- NeoVim v0.9.0+
+- NeoVim v0.10.0+
 - Ripgrep
 - A Nerdfont
 

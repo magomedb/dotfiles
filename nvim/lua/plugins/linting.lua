@@ -4,17 +4,23 @@ return {
 	config = function()
 		local lint = require("lint")
 
-		lint.linters_by_ft = {}
+		-- Define linters for specific file types
+		lint.linters_by_ft = {
+			rust = { "clippy" }, -- Add Clippy as the linter for Rust files
+		}
 
+		-- Create a dedicated autogroup for linting
 		local lint_augroup = vim.api.nvim_create_augroup("lint", { clear = true })
 
-		vim.api.nvim_create_autocmd({ "BufEnter", "BufWritePost", "InsertLeave" }, {
+		-- Trigger linting only on save (BufWritePost)
+		vim.api.nvim_create_autocmd({ "BufWritePost" }, {
 			group = lint_augroup,
 			callback = function()
 				lint.try_lint()
 			end,
 		})
 
+		-- Optional: Keymap for manual linting
 		vim.keymap.set("n", "<leader>l", function()
 			lint.try_lint()
 		end, { desc = "Trigger linting for current file" })
