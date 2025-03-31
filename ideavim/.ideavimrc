@@ -102,9 +102,34 @@ map <S-r> <Action>(Replace)
 map <leader>ff <Action>(FindInPath)
 map <leader>fr <Action>(ReplaceInPath)
 
+" Refactoring
 map <leader>rn <Action>(RenameElement)
 map <leader>rm <Action>(ExtractMethod)
 map <leader>rv <Action>(IntroduceVariable)
 map <leader>rf <Action>(IntroduceField)
 map <leader>rs <Action>(ChangeSignature)
 map <leader>rr <Action>(Refactorings.QuickListPopupAction)
+
+map <leader>aa <Action>(ShowIntentionActions)
+map <leader>sw <Action>(SurroundWith)
+map <S-l> <Action>(Forward)
+map <S-h> <Action>(Back)
+
+" Tab navigation
+map <leader>nn <Action>(NextTab)
+map <leader>pp <Action>(PreviousTab)
+
+" Reformat code
+map <leader><leader> <Action>(ReformatCode)
+map <leader>oi <Action>(OptimizeImports)
+map <S-j> <Action>(MoveLineDown)
+map <S-k> <Action>(MoveLineUp)
+
+" File management
+map <leader>fs <Action>(NewScratchFile)
+map <leader>qq <Action>(CloseContent)
+map <leader>qa <Action>(CloseAllEditors)
+map <leader>nf <Action>(NewFile)
+map <leader>nd <Action>(NewDir)
+map <leader>re <Action>(RenameFile)
+map <leader>of <Action>(OpenFile)
