@@ -1,99 +1,95 @@
 local function executable_exists(cmd)
-    return vim.fn.executable(cmd) == 1
+  return vim.fn.executable(cmd) == 1
 end
 
--- Warn if language servers are missing
+-- Notify if lua-language-server is missing
 if not executable_exists("lua-language-server") then
-    vim.schedule(function()
-        vim.notify(
-            "[LSP] Warning: 'lua-language-server' executable not found in PATH.\n" ..
-            "Install it from https://github.com/LuaLS/lua-language-server/releases",
-            vim.log.levels.WARN
-        )
-    end)
+  vim.schedule(function()
+    vim.notify(
+      "[LSP] Warning: 'lua-language-server' not found in PATH.\n" ..
+      "Install it from https://github.com/LuaLS/lua-language-server/releases",
+      vim.log.levels.WARN
+    )
+  end)
 end
 
+-- Notify if clangd is missing
 if not executable_exists("clangd") then
-    vim.schedule(function()
-        vim.notify(
-            "[LSP] Warning: 'clangd' (C/C++ language server) not found in PATH.\n" ..
-            "Install it using your package manager, e.g., 'sudo apt install clangd'",
-            vim.log.levels.WARN
-        )
-    end)
+  vim.schedule(function()
+    vim.notify(
+      "[LSP] Warning: 'clangd' not found in PATH.\n" ..
+      "Install it via your system package manager (e.g. apt, brew, pacman).",
+      vim.log.levels.WARN
+    )
+  end)
 end
 
--- Shared on_attach logic
-local function on_attach(bufnr)
-    -- Enable LSP completion
-    vim.bo[bufnr].omnifunc = "v:lua.vim.lsp.omnifunc"
+-- Common on_attach behavior
+local function setup_buffer(bufnr)
+  vim.bo[bufnr].omnifunc = "v:lua.vim.lsp.omnifunc"
 
-    -- Tab completion (without plugins)
-    vim.keymap.set("i", "<Tab>", [[pumvisible() ? "\<C-n>" : "\<Tab>"]],
-        { expr = true, noremap = true, buffer = bufnr })
-    vim.keymap.set("i", "<S-Tab>", [[pumvisible() ? "\<C-p>" : "\<C-h>"]],
-        { expr = true, noremap = true, buffer = bufnr })
+  vim.keymap.set("n", "gd", vim.lsp.buf.definition, { buffer = bufnr })
+  vim.keymap.set("n", "gr", vim.lsp.buf.references, { buffer = bufnr })
+  vim.keymap.set("n", "K", vim.lsp.buf.hover, { buffer = bufnr })
 
-    -- Format on save
-    vim.api.nvim_create_autocmd("BufWritePre", {
-        buffer = bufnr,
-        callback = function()
-            vim.lsp.buf.format({ async = false })
-        end,
+  -- Tab completion with <Tab> and <S-Tab>
+  vim.api.nvim_buf_set_keymap(bufnr, "i", "<Tab>", [[pumvisible() ? "\<C-n>" : "\<Tab>"]], { expr = true, noremap = true })
+  vim.api.nvim_buf_set_keymap(bufnr, "i", "<S-Tab>", [[pumvisible() ? "\<C-p>" : "\<C-h>"]], { expr = true, noremap = true })
+end
+
+-- Lua LSP
+vim.api.nvim_create_autocmd("FileType", {
+  pattern = "lua",
+  callback = function()
+    if not executable_exists("lua-language-server") then return end
+    local bufnr = vim.api.nvim_get_current_buf()
+
+    vim.lsp.start({
+      name = "lua-language-server",
+      cmd = { "lua-language-server" },
+      root_dir = vim.fs.dirname(
+        vim.fs.find({ ".luarc.json", ".luarc.jsonc", ".git" }, { upward = true })[1]
+      ),
+      settings = {
+        Lua = {
+          runtime = { version = "LuaJIT" },
+          diagnostics = { globals = { "vim" } },
+          workspace = {
+            library = vim.api.nvim_get_runtime_file("", true),
+            checkThirdParty = false,
+          },
+          telemetry = { enable = false },
+        },
+      },
     })
-end
 
--- Lua setup
-vim.api.nvim_create_autocmd("FileType", {
-    pattern = "lua",
-    callback = function(args)
-        if not executable_exists("lua-language-server") then return end
-
-        vim.lsp.start({
-            name = "lua-language-server",
-            cmd = { "lua-language-server" },
-            filetypes = { "lua" },
-            root_dir = vim.fs.dirname(
-                vim.fs.find({ ".luarc.json", ".luarc.jsonc", ".git" }, { upward = true })[1]
-            ),
-            settings = {
-                Lua = {
-                    runtime = { version = "LuaJIT" },
-                    diagnostics = { globals = { "vim" } },
-                    workspace = {
-                        library = vim.api.nvim_get_runtime_file("", true),
-                        checkThirdParty = false,
-                    },
-                    telemetry = { enable = false },
-                },
-            },
-            on_attach = on_attach,
-        })
-    end,
+    setup_buffer(bufnr)
+  end,
 })
 
--- C setup
+-- C/C++ (clangd)
 vim.api.nvim_create_autocmd("FileType", {
-    pattern = { "c", "cpp" },
-    callback = function(args)
-        if not executable_exists("clangd") then return end
+  pattern = { "c", "cpp" },
+  callback = function()
+    if not executable_exists("clangd") then return end
+    local bufnr = vim.api.nvim_get_current_buf()
 
-        vim.lsp.start({
-            name = "clangd",
-            cmd = { "clangd" },
-            filetypes = { "c", "cpp" },
-            root_dir = vim.fs.dirname(
-                vim.fs.find({ "compile_commands.json", ".git" }, { upward = true })[1]
-            ),
-            on_attach = on_attach,
-        })
-    end,
+    vim.lsp.start({
+      name = "clangd",
+      cmd = { "clangd" },
+      root_dir = vim.fs.dirname(
+        vim.fs.find({ ".clangd", ".git" }, { upward = true })[1]
+      ),
+    })
+
+    setup_buffer(bufnr)
+  end,
 })
 
--- Global diagnostics config
+-- LSP diagnostics config
 vim.diagnostic.config({
-    virtual_text = true,
-    signs = true,
-    underline = true,
-    update_in_insert = false,
+  virtual_text = true,
+  signs = true,
+  underline = true,
+  update_in_insert = false,
 })
