@@ -3,18 +3,19 @@ return {
   branch = "v3.x",
   dependencies = {
     "nvim-lua/plenary.nvim",
-    "nvim-tree/nvim-web-devicons", -- not strictly required, but recommended
+    "nvim-tree/nvim-web-devicons",
     "MunifTanjim/nui.nvim",
-    -- Optional image support for file preview: See `# Preview Mode` for more information.
-    -- {"3rd/image.nvim", opts = {}},
-    -- OR use snacks.nvim's image module:
-    -- "folke/snacks.nvim",
   },
-  lazy = false, -- neo-tree will lazily load itself
+  lazy = false,  -- load at startup (or change to true for lazy loading)
   keys = {
     { "\\", ":Neotree toggle<CR>", desc = "NeoTree toggle", silent = true },
   },
   opts = {
-    -- add options here
+    -- your neo-tree options here, or leave empty
   },
+  config = function(_, opts)
+    require("nvim-web-devicons").setup()
+    require("neo-tree").setup(opts)
+  end,
 }
+

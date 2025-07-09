@@ -60,12 +60,10 @@ vim.keymap.set("v", "<A-j>", ":move '>+1<CR>gv=gv", opts("Move selection down"))
 -- Keep last yanked when pasting
 vim.keymap.set("v", "p", '"_dP', opts("Paste (keep last yanked value)"))
 
--- Replace word under cursor
-vim.keymap.set("n", "<leader>j", "*``cgn", opts("Replace word under cursor"))
-
 -- Explicitly yank to system clipboard (highlighted and entire row)
 vim.keymap.set({ "n", "v" }, "<leader>y", [["+y]], opts("Yank selected to system clipboard"))
 vim.keymap.set("n", "<leader>Y", [["+Y]], opts("Yank entire line to system clipboard"))
 
 -- Configuration file
 vim.keymap.set("n", "<leader>cc", ":edit ~/.config/nvim<CR>", { desc = "Open configuration folder for NVIM" })
+
