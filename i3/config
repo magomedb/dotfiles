@@ -18,8 +18,7 @@ exec --no-startup-id xfce4-power-manager
 
 # Network + Audio
 exec --no-startup-id nm-applet
-exec --no-startup-id pasystray   # system tray volume control
-exec --no-startup-id volumeicon # volume icon in the bar
+exec --no-startup-id pasystray   # PulseAudio system tray control
 set $refresh_i3status killall -SIGUSR1 i3status
 bindsym XF86AudioRaiseVolume exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ +10% && $refresh_i3status
 bindsym XF86AudioLowerVolume exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ -10% && $refresh_i3status
@@ -141,3 +140,4 @@ bar {
     status_command i3status
     tray_output primary
 }
+
